@@ -1,3 +1,4 @@
+require('dotenv').config()
 const express = require('express')
 const morgan = require('morgan')
 
@@ -8,14 +9,20 @@ const app = express()
 app.use(morgan('dev'))
 
 const validGenres = [`Animation`, `Drama`, `Romantic`, `Comedy`, `Spy`, `Crime`, `Thriller`, `Adventure`, `Documentary`, `Horror`, `Action`, `Western`, `History`, `Biography`, `Musical`, `Fantasy`, `War`, `Grotesque`]
-const validCountry = [`United States`, `Italy`, `Germany`, `Israel`, `Great Britain`, `France`, `Hungary`, `China`, `Canada`, `Spain`, `Japan`]
+//const validCountry = [`United States`, `Italy`, `Germany`, `Israel`, `Great Britain`, `France`, `Hungary`, `China`, `Canada`, `Spain`, `Japan`]
 
-function handleGetTypes(req, res) {
+app.use(function validateBearerToken(req, res, next) {
+  console.log('validate bearer token middleware')
+  // move to the next middleware
+  next()
+})
+
+function handleGetMovies(req, res) {
+  console.log('app.get movies was called and handleGetMovies was run')
   res.json(validGenres)
-  res.json(validCountry)
 }
   
-app.get('/movies', handleGetTypes)
+app.get('/movies', handleGetMovies)
 
 const PORT = 8000
 
